@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Cares About Holds?</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" id="MathJax-script" async
+       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ff5c3f 0%, #0b54b4 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .section {
+            background-color: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .file-input {
+            margin: 20px 0;
+        }
+
+        input[type="file"] {
+            padding: 12px;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            background-color: #e9ecef;
+            border-color: #2980b9;
+        }
+
+        #image-preview {
+            max-width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .code-cell {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px 20px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .code-content {
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .run-button {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .output-cell {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        #csv-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        #csv-table th, #csv-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        #csv-table th {
+            background-color: #2c3e50;
+            color: white;
+            font-weight: 600;
+        }
+
+        #csv-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        #csv-table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .data-summary {
+            background-color: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .export-button {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+        .plot-container {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .methodology-content {
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .methodology-content h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .methodology-content p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .methodology-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .methodology-content li {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .journal-edition {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #14191d;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="journal-edition">
+          Who Cares About Stats Vol 1, Issue 1, April 2026
+        </div>
+        <div class="container">
+            <h1>Who Cares About Holds?</h1>
+            <p class="subtitle">Toppling the Hold's Statistical Monopoly on MRPs and SUs</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="introduction" class="section">
+            <p>Welcome to the Opening Day of <b>"Who Cares About Stats?"</b>. This issue is dedicated to the Hold. But before the analysis, A quick history of the statistic.</p>
+        </section>
+        <!-- Historical Context Section -->
+         <section id="history" class="section">
+            <p>It's 1986: the Mets are iconic, Barry Bonds is a rookie, ~40% of the league is on cocaine (with 11 players suspended by Commissioner Ueberroth over substance abuse), and John Dewall and Mike O'Donnell invent the Hold. They wanted to give a "spot-and-score statistic", that is a stat like SB which doesn't require calculation, to Middle Relievers and Set-Ups.</p>
+         </section>
+        <!-- Methodology Section -->
+        <section id="methodology" class="section">
+            <h2>Methodology and Definitions</h2>
+            <div class="methodology-content">
+                <h3>Holds</h3>
+                <p>A hold occurs when a relief pitcher enters the game in a save situation and maintains his team's lead for the next relief pitcher, while recording at least one out. One of two conditions must be met for a hold to be recorded<sup>1</sup>:
+                  <ol>
+                      <li>The pitcher must enter the game with a lead of no more than three runs and maintain that lead while recording at least one out</li>
+                      <li>The pitcher must enter the game with the tying run on deck, at bat, or on base</li>
+                  </ol>
+                </p>
+            <div class="highlight">
+                <p>
+                    <b>Note:</b> A pitcher cannot earn a hold if he finishes the game, earns a save, or is the winning pitcher. Additionally, there are different numbers of holds between BRef and FanGraphs, so the data for this project was all sourced from fangraphs.
+                </p>
+            </div>
+                <h3>Data Collection</h3>
+                <ul>
+                    <li>Exported All 2025 Hold Event Data from BRef</li>
+                    <li>Imported Data into Excel</li>
+                    <li>Generated Summary Statistics using VLOOKUP in Excel + PowerBI programming commands</li>
+                    <li>Quantitative Analysis to perfect Holds+</li>
+                </ul>
+                <h3>Statistical Analysis Methods</h3>
+                <ul>
+                    <li>Used R and ggPLot2 to form professional visualizations</li>
+                    <li>Created interactive models using Plotly extension</li>
+                    <li>Annotated plots for easier interpretation</li>
+                    <li>Produced three different solutions with suggestions for further development</li>
+                    <li>Solutions address problems from two fronts: definitionally and relatively/relationally</li>
+                </ul>
+                <h3>Programming Environments</h3>
+                <ul>
+                    <li>R with Tidyverse</li>
+                    <li>Python data science stack (pandas, numpy, scikit-learn)</li>
+                    <li>Jupyter notebooks for reproducible research</li>
+                    <li>Version control with Git for collaboration</li>
+                    <li>HTML to build this page</li>
+                </ul>
+            </div>
+        </section>
+        <!--Why are Holds Bad-->
+        <section id="methodology" class="section">
+            <h2>Who Should Care About Holds?</h2>
+            <div class="methodology-content">
+              <h3>Win Bias in Holds</h3>
+                <p>
+                  "The entire way they go about their business is a failure." - Fan Call-In on 1000 AM Chicago ESPN Sports Radio, 2023. The primary issue with the Holds is that a stat that gives value to a player should never entail so much of outside bias to even be possible. Teams with more wins almost always have more Holds and more save opportunities.
+                  This trend can be narrowed down smaller to game-level, where when a team deploys a parade of relievers, you get a game like the exhibition match between Israel and Miami. <em>FIVE</em> relievers recorded a Hold for Israel alone. The Marlins, ZERO. The Score? 1-0.
+                </p>
+                <img src="GameResultVsHoldsRecorded.png" alt="Game Result vs Holds Recorded">
+                <p>Of the 2701 holds recorded in the 2025 MLB season, only 345 were in games where the team lost. That means Holds in lost games account for only ~12.8% of all Holds recorded. Hold-by-team data shows a similar trend:</p>
+                <img src="RedLinedHoldsbyWins.png" alt ="Red Lined Holds by Wins">
+                <p>
+                  We can construe that, already, Holds are not a good measure of the effectiveness of a reliever, because it is often out of their hands. This is even more inappropriate when it is the sole unique measurement for Set-Ups and MRPs. This same reason is why W/L are such a hot topic for SP.
+                  Finally, the original definition of Hold said one cannot be obtained if the same pitcher records either a win, a save, or a game finished. What other decision is missing? Losses. Yes, a pitcher can simultaneously record a Hold and a Loss. This is rare however with it only happening 20 times last season, and no pitcher recording more than one Hold-Loss game in 2025. When Jeff Hoffman gave up four runs, recorded only one out, and dropped his team's win percentage by 47% (No Capital Steez), he stil got the hold.
+                </p>
+            </div>
+          </section>
+        <!-- Solution 1: xHolds -->
+        <section id="methodology" class="section">
+            <h2>Solution #1: xHolds</h2>
+            <p>Anybody can hate, and I have given ample evidence against the use of traditional Holds. My first formula worked as follows:</p>
+            $$
+            \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}
+            $$
+            <p>I'm joking, but maybe one day I'll be that good at math. Okay, for real the formula is...</p>
+            $$
+            xHold = (Player Holds \div (Player's Team's Holds + Save Opportunities)) \times [(All Teams' Holds + Save Opportunities) \div 30]
+            $$
+            <p>This formula, which is an improved-upon iteration of my original formula, is a minor adjustment which levels the playing field for those who pitch for poor offenses.</p>
+            <p>Here is how it affects league leaders in Holds:</p>
+            <img src="xHolds_non_Plotly.png" alt="xHolds vs Traditional Holds">
+            <p>The interactive version of this plot is available
+            <a href="https://magic-blush-jwtjy2nxou.edgeone.app">HERE</a></p>
+            </section>
+        <!--Solution 2: Definitional-->
+        <section id="methodology" class="section">
+            <h2>Solution #2: Definitional</h2>
+            <p>If the problem is the not the system but its design, then why change the system and not the design. A better approach would be to redefine what constitutes a Hold, ensuring a more accurate reflection of a reliever's role.</p>
+            <p>A better working holds definition would be as follows:</p>
+            <ol>
+              <li>The pitcher must enter the game with a lead of no more than three runs and maintain that lead while recording at least one out</li>
+              <li>The pitcher must enter the game with the tying run on deck, at bat, or on base</li>
+              <li>The pitcher cannot record a Hold if they are later credited with a win, loss, or save</li>
+              <li>The pitcher's WHIP (Walks + Hits per Inning Pitched) must be less than or equal to 1.5 in that outing unless he only pitched one-third of an inning in which case the threshold is 3.0 (This brings the value of holds back to its original intent by McDowell: a SetUp oriented statistic)</li>
+              <li>The pitcher's WPA (Win Probability Added) must be positive for that outing (This ensures that the pitcher actually contributed to not only maintaining the lead but also benefiting their team); this will cut down on pitchers who are ineffective and only used in large Run Differential games</li>
+            </ol>
+            <p>Bam! New Definition. This stat could be called Holds And Newer Developments for Offense: HAND (off) </p>
+        </section>
+        <!-- Concluding -->
+        <section id="methodology" class="section">
+            <h2>Conclusion</h2>
+            <p>Holds are long over do for a change, and whether that entails the use of my equation or definition, or someone else's approach, it is important to consider these improvements. For my next project I'm planning on created a weighted RBIs that accounts for all 24 base-out situations to truly find out who is the best at driving in runs. Jonah Hill would be proud. Thank you for tuning into Who Cares About Stats!</p>
+          </section>
+    </div>
+</body>
+</html>
