@@ -6,3 +6,4 @@ The repository looks fairly disheveled, so peep the pages for the true informati
 I hope this is the first of many and thank you.
 Sincerely,
   Who Cares About Stats
+P.S. This page is highly disorganized, I don't know how to use gitbash, so i've been deleting and reuploading the information. I hope this is the worst of all my projects, and also idk if I messed ip the pages for future projects
