@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who Cares About Holds?</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script type="text/javascript" id="MathJax-script" async
-       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+    };
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -369,9 +375,11 @@
             $$
             <p>I'm joking, but maybe one day I'll be that good at math. Okay, for real, the formula is...</p>
             $$
-            xHold = (Player Holds \div (Player's Team's Holds + Save Opportunities)) \times [(All Teams' Holds + Save Opportunities) \div 30]
+            xHold = \frac{\text{Player Holds}}{\text{Player's Team's Holds} + \text{Player's Team's Save Opportunities}} \times \left[\frac{\text{All Teams' Holds} + \text{All Teams' Save Opportunities}}{30}\right]
             $$
-            <p>This formula, which is an improved-upon iteration of my original formula, is a minor adjustment which levels the playing field for those who pitch for poor offenses.</p>
+            <p>This formula, which is an improved-upon iteration of my original formula, is a minor adjustment which levels the playing field for pitchers on poor-offensive teams.
+                Also, the constant, \(\left[\frac{\text{All Teams' Holds} + \text{All Teams' Save Opportunities}}{30}\right]\) in this formula would change from year to year with 2025's constant being \(153.\overline{6}\)
+            </p>
             <p>Here is how it affects league leaders in Holds:</p>
             <img src="xHolds_non_Plotly.png" alt="xHolds vs Traditional Holds" width="1000vw">
             <p>The interactive version of this plot is available
