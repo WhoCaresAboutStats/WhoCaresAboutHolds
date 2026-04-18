@@ -35,7 +35,7 @@
             margin-bottom: 30px;
             border-radius: 10px;
         }
-        
+
         footer {
             background: linear-gradient(135deg, #ff5c3f 0%, #0b54b4 100%);
             color: white;
@@ -307,12 +307,11 @@
             <h2>Methodology and Definitions</h2>
             <div class="methodology-content">
                 <h3>Holds</h3>
-                <p>A hold occurs when a relief pitcher enters the game in a save situation and maintains his team's lead for the next relief pitcher, while recording at least one out. One of two conditions must be met for a hold to be recorded<sup>1</sup>:
-                  <ol>
+                <p>A hold occurs when a relief pitcher enters the game in a save situation and maintains his team's lead for the next relief pitcher, while recording at least one out. One of two conditions must be met for a hold to be recorded<sup>1</sup>:</p>
+                  <ul>
                       <li> The pitcher must enter the game with a lead of no more than three runs and maintain that lead while recording at least one out</li>
                       <li> The pitcher must enter the game with the tying run on deck, at bat, or on base</li>
-                  </ol>
-                </p>
+                  </ul>
             <div class="highlight">
                 <p>
                     <b>Note:</b> A pitcher cannot earn a hold if he finishes the game, earns a save, or is the winning pitcher. Additionally, there are different numbers of holds between BRef and FanGraphs, so the data for this project was all sourced from fangraphs.
@@ -349,7 +348,7 @@
             <div class="methodology-content">
               <h3>Win Bias in Holds</h3>
                 <p>
-                  "The entire way they go about their business is a failure." - Fan Call-In on 1000 AM Chicago ESPN Sports Radio, 2023. The primary issue with the Holds is that a stat that gives value to a player should never entail so much of outside bias to even be possible. Teams with more wins almost always have more Holds and more save opportunities.
+                  "The entire way they go about their business is a failure." - Fan Call-In on 1000 AM Chicago ESPN Sports Radio, 2023<sup>2</sup>. The primary issue with the Holds is that a stat that gives value to a player should never entail so much of outside bias to even be possible. Teams with more wins almost always have more Holds and more save opportunities.
                   This trend can be narrowed down smaller to game-level, where when a team deploys a parade of relievers, you get a game like the exhibition match between Israel and Miami. <em>FIVE</em> relievers recorded a Hold for Israel alone. The Marlins, ZERO. The Score? 1-0.
                 </p>
                 <img src="GameResultVsHoldsRecorded.png" alt="Game Result vs Holds Recorded" width="1000vw">
@@ -368,7 +367,7 @@
             $$
             \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}
             $$
-            <p>I'm joking, but maybe one day I'll be that good at math. Okay, for real the formula is...</p>
+            <p>I'm joking, but maybe one day I'll be that good at math. Okay, for real, the formula is...</p>
             $$
             xHold = (Player Holds \div (Player's Team's Holds + Save Opportunities)) \times [(All Teams' Holds + Save Opportunities) \div 30]
             $$
@@ -395,14 +394,16 @@
         <!-- Concluding -->
         <section id="methodology" class="section">
             <h2>Conclusion</h2>
-            <p>Holds are long over do for a change, and whether that entails the use of my equation or definition, or someone else's approach, it is important to consider these improvements. For my next project I'm planning on created a weighted RBIs that accounts for all 24 base-out situations to truly find out who is the best at driving in runs. Jonah Hill would be proud. Thank you for tuning into Who Cares About Stats!</p>
+            <p>Holds are long over do for a change, and whether that entails the use of my equation or definition, or someone else's approach, it is important to consider these improvements. For my next project I'm planning on creating a weighted RBIs that accounts for all 24 base-out situations to truly find out who is the best at driving in runs. Jonah Hill would be proud. Thank you for tuning into Who Cares About Stats!</p>
         </section>
         <!--Add in Link to Works Cited and Github-->
      <footer>
         <div class="container">
             <h1>External Resources</h1>
-            <p>Information Cited: <a href="https://docs.google.com/document/d/1ISApXaDc3ZEUC3hPyyCmlOBFzqEOMGf4TviU1Vf2BuA/edit?usp=sharing">DOCS</a>
+            <p>
+            Information Cited: <a href="https://docs.google.com/document/d/1ISApXaDc3ZEUC3hPyyCmlOBFzqEOMGf4TviU1Vf2BuA/edit?usp=sharing">DOCS</a>
             GitHub Project Files: <a href="https://github.com/WhoCaresAboutStats/WhoCaresAboutHolds">GitHub</a>
+            Excel File: <a href="https://jesuittampa-my.sharepoint.com/:x:/g/personal/earey28_jesuittampa_org/IQBc4pd_nzYtRot-4P0cO7QWARnIngwugjwFRNQPENbKIi0?e=TfHQA8">Password is Holds</a>
             Jupyter Notebook: INSERT LINK + Maybe Implement into site ahead of each graph</p>
         </div>
     </footer>
